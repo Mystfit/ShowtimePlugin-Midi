@@ -1,0 +1,242 @@
+{
+	"name": "minilouge",
+	"port_in_name": "minilogue MIDI OUT",
+	"port_out_name": "minilogue SOUND",
+	"port_type": "bidrectional",
+	"children": [
+		{
+			"name": "amp_EG",
+			"type": "component",
+			"children": [
+				{
+					"name": "attack",
+					"type": "cc_plug",
+					"cc": 16
+				},
+				{
+					"name": "decay",
+					"type": "cc_plug",
+					"cc": 17
+				},
+				{
+					"name": "sustain",
+					"type": "cc_plug",
+					"cc": 18
+				},
+				{
+					"name": "release",
+					"type": "cc_plug",
+					"cc": 19
+				}
+			]
+		},
+		{
+			"name": "EG",
+			"type": "component",
+			"children": [
+				{
+					"name": "attack",
+					"type": "cc_plug",
+					"cc": 20
+				},
+				{
+					"name": "decay",
+					"type": "cc_plug",
+					"cc": 21
+				},
+				{
+					"name": "sustain",
+					"type": "cc_plug",
+					"cc": 22
+				},
+				{
+					"name": "release",
+					"type": "cc_plug",
+					"cc": 23
+				}
+			]
+		},
+		{
+			"name": "LFO",
+			"type": "component",
+			"children": [
+				{
+					"name": "rate",
+					"type": "cc_plug",
+					"cc": 24
+				},
+				{
+					"name": "depth",
+					"type": "cc_plug",
+					"cc": 26
+				},
+				{
+					"name": "target",
+					"type": "cc_plug",
+					"cc": 56
+				},
+				{
+					"name": "eg_mod",
+					"type": "cc_plug",
+					"cc": 57
+				}
+			]
+		},
+		{
+			"name": "general",
+			"type": "component",
+			"children": [
+				{
+					"name": "voice_depth",
+					"type": "cc_plug",
+					"cc": 27
+				}
+			]
+		},
+		{
+			"name": "delay",
+			"type": "component",
+			"children": [
+				{
+					"name": "hipass_cutoff",
+					"type": "cc_plug",
+					"cc": 29
+				},
+				{
+					"name": "time",
+					"type": "cc_plug",
+					"cc": 30
+				},
+				{
+					"name": "feedback",
+					"type": "cc_plug",
+					"cc": 31
+				}
+			]
+		},
+		{
+			"name": "VCO1",
+			"type": "component",
+			"children": [
+				{
+					"name": "octave",
+					"type": "cc_plug",
+					"cc": 48
+				},
+				{
+					"name": "wave",
+					"type": "cc_plug",
+					"cc": 50
+				},
+				{
+					"name": "pitch",
+					"type": "cc_plug",
+					"cc": 34
+				},
+				{
+					"name": "shape",
+					"type": "cc_plug",
+					"cc": 36
+				}
+			]
+		},
+		{
+			"name": "VCO2",
+			"type": "component",
+			"children": [
+				{
+					"name": "octave",
+					"type": "cc_plug",
+					"cc": 49
+				},
+				{
+					"name": "wave",
+					"type": "cc_plug",
+					"cc": 51
+				},
+				{
+					"name": "pitch",
+					"type": "cc_plug",
+					"cc": 35
+				},
+				{
+					"name": "shape",
+					"type": "cc_plug",
+					"cc": 37
+				},
+				{
+					"name": "cross_mod_depth",
+					"type": "cc_plug",
+					"cc": 41
+				},
+				{
+					"name": "pitch_eg_int",
+					"type": "cc_plug",
+					"cc": 42
+				},
+				{
+					"name": "sync",
+					"type": "cc_plug",
+					"cc": 80
+				},
+				{
+					"name": "ring",
+					"type": "cc_plug",
+					"cc": 81
+				}
+			]
+		},
+		{
+			"name": "mixer",
+			"type": "component",
+			"children": [
+				{
+					"name": "VCO1_level",
+					"type": "cc_plug",
+					"cc": 33
+				},
+				{
+					"name": "VCO2_level",
+					"type": "cc_plug",
+					"cc": 39
+				},
+				{
+					"name": "noise_level",
+					"type": "cc_plug",
+					"cc": 40
+				}
+			]
+		},
+		{
+			"name": "filter",
+			"type": "component",
+			"children": [
+				{
+					"name": "cutoff",
+					"type": "cc_plug",
+					"cc": 11
+				},
+				{
+					"name": "resonance",
+					"type": "cc_plug",
+					"cc": 12
+				},
+				{
+					"name": "eg_int",
+					"type": "cc_plug",
+					"cc": 13
+				},
+				{
+					"name": "eg_int",
+					"type": "cc_plug",
+					"cc": 83
+				},	
+				{
+					"name": "velocity",
+					"type": "cc_plug",
+					"cc": 82
+				}
+			]
+		}
+	]
+}
