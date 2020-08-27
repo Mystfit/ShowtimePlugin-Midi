@@ -23,7 +23,7 @@ private:
 	/*	template<typename T>
 	void register_midi_creatable(const std::string& port_name, int port_index, const nlohmann::json& map_data = nlohmann::json());*/
 	void register_midi_port_map(nlohmann::json mapdata);
-	int get_port_index(RtMidi* midi, std::string& port_name);
+	int get_port_index(RtMidi* midi, const std::string& port_name);
 #ifdef HAS_TEVIRTUALMIDI
 	void register_virtual_midi_creatables();
 #endif

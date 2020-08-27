@@ -22,8 +22,8 @@ public:
 	ZST_PLUGIN_EXPORT virtual void send_program_change(uint8_t program, uint8_t channel = 0);
 	ZST_PLUGIN_EXPORT virtual void send_channel_aftertouch(uint8_t pressure, uint8_t channel = 0);
 	ZST_PLUGIN_EXPORT virtual void send_pitch_bend(uint16_t value, uint8_t channel = 0);
-
-	ZST_PLUGIN_EXPORT virtual void send_midi(uint8_t* midibytes, size_t length) = 0;
+	
+    ZST_PLUGIN_EXPORT virtual void send_midi(uint8_t* midibytes, size_t length) = 0;
 
 private:
 	// Output plugs

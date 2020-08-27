@@ -41,7 +41,12 @@ endif()
 # Plugin dependant libs
 # Inbclude packages
 find_package(Showtime CONFIG REQUIRED)
-find_package(rtmidi CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
+find_package(rtmidi CONFIG)
+if(NOT RTMIDI_FOUND)
+  message(STATUS "Searching for RtMidi using FindRtMidi.cmake")
+  find_package(RtMidi REQUIRED)
+endif()
 find_package(Boost COMPONENTS ${BOOST_COMPONENTS} CONFIG)
 if(NOT Boost_FOUND)
     message(STATUS "Searching for Boost using cmake's FindBoost")
@@ -57,6 +62,10 @@ set(PLUGIN_LIBS
     RtMidi::rtmidi
     Showtime::Showtime
 )
+if(APPLE)
+  list(APPEND PLUGIN_LIBS Boost::filesystem)
+endif()
+
 if(BUILD_WITH_TEVIRTUALMIDI)
   list(APPEND PLUGIN_LIBS teVirtualMIDISDK::teVirtualMIDISDK)
 endif()
