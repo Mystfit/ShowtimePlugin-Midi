@@ -46,7 +46,12 @@ void MidiFactory::parse_midi_port_maps(const fs::path& map_dir)
 
 		std::ifstream input_stream(mapping_file);
 		json mapping_json;
-		input_stream >> mapping_json;
+		try {
+			input_stream >> mapping_json;
+		}
+		catch (json::parse_error e) {
+			Log::app(Log::error, "Failed to parse midi map file: {}", e.what());
+		}
 		register_midi_port_map(mapping_json);
 	}
 }
@@ -67,8 +72,8 @@ void MidiFactory::register_midi_port_map(json map_data)
 
 	if (in_port_index >= 0 && out_port_index >= 0 || FORCE_MIDI_MAP_LOAD) {
 		ZstURI creatable_name(map_data["name"].get<std::string>().c_str());
-		this->add_creatable<RtMidiBidirectionalPort>(creatable_name, [in_port_index, in_port_name, out_port_index, out_port_name, map_data](const char* e_name) -> std::unique_ptr<ZstEntityBase> {
-			return std::make_unique<MidiBidirectionalPort>(std::string(e_name), in_port_name, in_port_index, out_port_name, out_port_index, map_data);
+		this->add_creatable<MidiBidirectionalPort>(creatable_name, [in_port_index, in_port_name, out_port_index, out_port_name, map_data](const char* e_name) -> std::unique_ptr<ZstEntityBase> {
+			return std::make_unique<RtMidiBidirectionalPort>(std::string(e_name), in_port_name, in_port_index, out_port_name, out_port_index, map_data);
 			});
 		/*register_midi_creatable<MidiBidirectionalPort>(in_port_name, in_port_index, out_port_name, out_port_index, map_data);*/
 	}
@@ -87,7 +92,8 @@ int MidiFactory::get_port_index(RtMidi* midi, std::string& port_name)
 {
 	auto num_ports = midi->getPortCount();
 	for (size_t port_index = 0; port_index < num_ports; ++port_index) {
-		if (port_name == midi->getPortName())
+		auto name = midi->getPortName(port_index);
+		if (port_name == name)
 			return static_cast<int>(port_index);
 	}
 	return -1;

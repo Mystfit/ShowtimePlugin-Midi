@@ -10,22 +10,26 @@
 			"children": [
 				{
 					"name": "attack",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 16
 				},
 				{
 					"name": "decay",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 17
 				},
 				{
 					"name": "sustain",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 18
 				},
 				{
 					"name": "release",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 19
 				}
 			]
@@ -36,22 +40,26 @@
 			"children": [
 				{
 					"name": "attack",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 20
 				},
 				{
 					"name": "decay",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 21
 				},
 				{
 					"name": "sustain",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 22
 				},
 				{
 					"name": "release",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 23
 				}
 			]
@@ -62,22 +70,26 @@
 			"children": [
 				{
 					"name": "rate",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 24
 				},
 				{
 					"name": "depth",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 26
 				},
 				{
 					"name": "target",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 56
 				},
 				{
 					"name": "eg_mod",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 57
 				}
 			]
@@ -88,7 +100,8 @@
 			"children": [
 				{
 					"name": "voice_depth",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 27
 				}
 			]
@@ -99,17 +112,20 @@
 			"children": [
 				{
 					"name": "hipass_cutoff",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 29
 				},
 				{
 					"name": "time",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 30
 				},
 				{
 					"name": "feedback",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 31
 				}
 			]
@@ -120,22 +136,26 @@
 			"children": [
 				{
 					"name": "octave",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 48
 				},
 				{
 					"name": "wave",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 50
 				},
 				{
 					"name": "pitch",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 34
 				},
 				{
 					"name": "shape",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 36
 				}
 			]
@@ -146,42 +166,50 @@
 			"children": [
 				{
 					"name": "octave",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 49
 				},
 				{
 					"name": "wave",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 51
 				},
 				{
 					"name": "pitch",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 35
 				},
 				{
 					"name": "shape",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 37
 				},
 				{
 					"name": "cross_mod_depth",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 41
 				},
 				{
 					"name": "pitch_eg_int",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 42
 				},
 				{
 					"name": "sync",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 80
 				},
 				{
 					"name": "ring",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 81
 				}
 			]
@@ -192,17 +220,20 @@
 			"children": [
 				{
 					"name": "VCO1_level",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 33
 				},
 				{
 					"name": "VCO2_level",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 39
 				},
 				{
 					"name": "noise_level",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 40
 				}
 			]
@@ -213,27 +244,32 @@
 			"children": [
 				{
 					"name": "cutoff",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 11
 				},
 				{
 					"name": "resonance",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 12
 				},
 				{
 					"name": "eg_int",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 13
 				},
 				{
 					"name": "eg_int",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 83
 				},	
 				{
 					"name": "velocity",
-					"type": "cc_plug",
+					"type": "plug",
+					"plug_type": "cc",
 					"cc": 82
 				}
 			]

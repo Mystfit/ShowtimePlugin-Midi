@@ -51,6 +51,21 @@ struct FixtureClientServer : public FixtureClient, public FixtureServer {
 	}
 };
 
+struct FixturePlugs :public FixtureClientServer {
+	FixturePlugs() :
+		component(std::make_unique<ZstComponent>("comp")),
+		output_plug(std::make_unique<ZstOutputPlug>("out", ZstValueType::IntList)),
+		input_plug(std::make_unique<ZstInputPlug>("in", ZstValueType::IntList))
+	{
+		client->get_root()->add_child(component.get());
+		component->add_child(output_plug.get());
+		component->add_child(input_plug.get());
+	}
+
+	std::unique_ptr<ZstComponent> component;
+	std::unique_ptr<ZstOutputPlug> output_plug;
+	std::unique_ptr<ZstInputPlug> input_plug;
+};
 
 // ------------------------
 
@@ -81,6 +96,62 @@ BOOST_FIXTURE_TEST_CASE(minilouge_creatable, FixtureClient) {
 	BOOST_REQUIRE(entity);
 }
 
+BOOST_FIXTURE_TEST_CASE(kaossilator_creatable, FixtureClient) {
+	auto entity = client->create_entity(client->get_root()->URI() + ZstURI("midi_ports/kaossilator_pro"), "created_kaoss");
+	BOOST_REQUIRE(entity);
+}
+
+BOOST_FIXTURE_TEST_CASE(kaossilator_send, FixturePlugs){
+	// Touchpad toggle component
+	std::unique_ptr<ZstComponent> touch_toggle_component = std::make_unique<ZstComponent>("touchtoggle");
+	std::unique_ptr<ZstOutputPlug> touch_toggle_output_plug = std::make_unique<ZstOutputPlug>("out", ZstValueType::IntList);
+	client->get_root()->add_child(touch_toggle_component.get());
+	touch_toggle_component->add_child(touch_toggle_output_plug.get());
+
+	// Create kaossilator mapped midi component
+	ZstURI kaoss_path = client->get_root()->URI() + ZstURI("midi_ports/kaossilator_pro");
+	auto kaoss_component = client->create_entity(kaoss_path, "test_kaoss");
+
+	// Get plugs from midi component
+	auto coord_path = kaoss_component->URI() + ZstURI("touchpad/coordinates/send");
+	auto toggle_path = kaoss_component->URI() + ZstURI("touchpad/toggle/send");
+	ZstInputPlug* kaoss_touchcoord_send = dynamic_cast<ZstInputPlug*>(client->find_entity(coord_path));
+	ZstInputPlug* kaoss_touchtoggle_send = dynamic_cast<ZstInputPlug*>(client->find_entity(toggle_path));
+	BOOST_REQUIRE(kaoss_touchcoord_send);
+	BOOST_REQUIRE(kaoss_touchtoggle_send);
+
+	// Connect cables
+	client->connect_cable(kaoss_touchcoord_send, output_plug.get());
+	client->connect_cable(kaoss_touchtoggle_send, touch_toggle_output_plug.get());
+
+	// Touchpad toggle
+	touch_toggle_output_plug->append_int(127);
+	touch_toggle_output_plug->fire();
+
+	// Touchpad coords
+	int delay = 100;
+	for (int i = 0; i < 150; ++i) {
+		output_plug->append_int((i * 10) % 127);
+		output_plug->append_int((i * 5) % 127);
+		output_plug->fire();
+		client->poll_once();
+		Sleep(delay);
+
+		output_plug->append_int((i * 30) % 127);
+		output_plug->append_int((i * 10) % 127);
+		output_plug->fire();
+		client->poll_once();
+		Sleep(delay);
+	}
+
+	// Touchpad toggle
+	touch_toggle_output_plug->append_int(0);
+	touch_toggle_output_plug->fire();
+
+	client->poll_once();
+	Log::app(Log::Level::debug, "");
+}
+
 BOOST_FIXTURE_TEST_CASE(virtualmidi_create, FixtureClientServer) {
 	ZstURI virtualmidi_path = client->get_root()->URI() + ZstURI("midi_ports/virtualMidi");
 	std::string virtualmidi_name = "test_virtual_midi";
@@ -90,7 +161,7 @@ BOOST_FIXTURE_TEST_CASE(virtualmidi_create, FixtureClientServer) {
 	BOOST_TEST(virtualmidi_component->URI().last() == ZstURI(virtualmidi_name.c_str()));
 }
 
-BOOST_FIXTURE_TEST_CASE(virtualmidi_receive, FixtureClientServer) {
+BOOST_FIXTURE_TEST_CASE(virtualmidi_receive, FixturePlugs) {
 	ZstURI virtualmidi_path = client->get_root()->URI() + ZstURI("midi_ports/virtualMidi");
 	auto virtualmidi_component = client->create_entity(virtualmidi_path, "test_virtual_midi");
 	
@@ -98,16 +169,6 @@ BOOST_FIXTURE_TEST_CASE(virtualmidi_receive, FixtureClientServer) {
 	ZstOutputPlug* vmidi_note_recv = dynamic_cast<ZstOutputPlug*>(client->find_entity(virtualmidi_component->URI() + ZstURI("recv_note")));
 	BOOST_REQUIRE(vmidi_note_send);
 	BOOST_REQUIRE(vmidi_note_recv);
-	
-	auto output_comp = std::make_unique<ZstComponent>("output");
-	client->get_root()->add_child(output_comp.get());
-	auto output_plug = std::make_unique<ZstOutputPlug>("out", ZstValueType::IntList);
-	output_comp->add_child(output_plug.get());
-
-	auto input_comp = std::make_unique<ZstComponent>("input");
-	client->get_root()->add_child(input_comp.get());
-	auto input_plug = std::make_unique<ZstInputPlug>("in", ZstValueType::IntList);
-	input_comp->add_child(input_plug.get());
 
 	client->connect_cable(vmidi_note_send, output_plug.get());
 	client->connect_cable(input_plug.get(), vmidi_note_recv);

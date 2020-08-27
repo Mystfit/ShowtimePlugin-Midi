@@ -2,6 +2,7 @@
 
 #pragma once
 #include <stdint.h>
+#include <math.h>
 
 //"""Definitions of midi events, controller numbers and parameters."""
 
@@ -253,10 +254,26 @@ inline bool is_status(uint8_t* byte) {
     return (*byte & 0x80) == 0x80;  // 1000 0000
 }
 
-inline uint8_t pitchbend_int_to_MSB(unsigned short value) {
+inline bool is_note_on(uint8_t* byte) {
+    return (*byte & NOTE_ON) == NOTE_ON;
+}
+
+inline bool is_note_off(uint8_t* byte) {
+    return (*byte & NOTE_OFF) == NOTE_OFF;
+}
+
+inline bool is_cc(uint8_t* byte) {
+    return (*byte & CONTROLLER_CHANGE) == CONTROLLER_CHANGE;
+}
+
+inline uint8_t create_status_byte(uint8_t status, uint8_t channel) {
+    return status | std::clamp((int)channel, 0, 15);
+}
+
+inline uint8_t pitchbend_int_to_MSB(uint16_t value) {
     return (value & 0x00FF) >> 8;
 }
 
-inline uint8_t pitchbend_int_to_LSB(unsigned short value) {
+inline uint8_t pitchbend_int_to_LSB(uint16_t value) {
     return (value & 0x00FF);
 }

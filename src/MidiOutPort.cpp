@@ -47,44 +47,45 @@ void MidiOutPort::compute(showtime::ZstInputPlug* plug)
 	}
 }
 
-void MidiOutPort::send_note_off(unsigned char note, unsigned char velocity, unsigned char channel)
+void MidiOutPort::send_note_off(uint8_t note, uint8_t velocity, uint8_t channel)
 {
-	uint8_t midiDataBytes[4]{ NOTE_OFF, channel, note, velocity };
-	send_midi(midiDataBytes, 4);
-}
-
-void MidiOutPort::send_note_on(unsigned char note, unsigned char velocity, unsigned char channel)
-{
-	uint8_t midiDataBytes[4]{ NOTE_ON, channel, note, velocity };
-	send_midi(midiDataBytes, 4);
-}
-
-void MidiOutPort::send_poly_aftertouch(unsigned char note, unsigned char velocity, unsigned char channel)
-{
-	uint8_t midiDataBytes[4]{ NOTE_OFF, channel, note, velocity };
-	send_midi(midiDataBytes, 4);
-}
-
-void MidiOutPort::send_cc(unsigned char controller, unsigned char value, unsigned char channel)
-{
-	uint8_t midiDataBytes[4]{ CONTROLLER_CHANGE, channel, controller, value };
-	send_midi(midiDataBytes, 4);
-}
-
-void MidiOutPort::send_program_change(unsigned char program, unsigned char channel)
-{
-	uint8_t midiDataBytes[3]{ PROGRAM_CHANGE, channel, program };
+	uint8_t midiDataBytes[3]{ create_status_byte(NOTE_OFF, channel), note, velocity };
 	send_midi(midiDataBytes, 3);
 }
 
-void MidiOutPort::send_channel_aftertouch(unsigned char pressure, unsigned char channel)
+void MidiOutPort::send_note_on(uint8_t note, uint8_t velocity, uint8_t channel)
 {
-	uint8_t midiDataBytes[3]{ CHANNEL_AFTERTOUCH, channel, pressure };
+	uint8_t midiDataBytes[3]{ create_status_byte(NOTE_ON, channel), note, velocity };
 	send_midi(midiDataBytes, 3);
 }
 
-void MidiOutPort::send_pitch_bend(unsigned short value, unsigned char channel)
+void MidiOutPort::send_poly_aftertouch(uint8_t note, uint8_t velocity, uint8_t channel)
 {
-	uint8_t midiDataBytes[4]{ CHANNEL_AFTERTOUCH, channel, pitchbend_int_to_LSB(value), pitchbend_int_to_MSB(value) };
-	send_midi(midiDataBytes, 4);
+	uint8_t midiDataBytes[3]{ create_status_byte(NOTE_OFF, channel), note, velocity };
+	send_midi(midiDataBytes, 3);
+}
+
+void MidiOutPort::send_cc(uint8_t controller, uint8_t value, uint8_t channel)
+{
+	uint8_t status = create_status_byte(CONTROLLER_CHANGE, channel);
+	uint8_t midiDataBytes[3]{ status, controller, value };
+	send_midi(midiDataBytes, 3);
+}
+
+void MidiOutPort::send_program_change(uint8_t program, uint8_t channel)
+{
+	uint8_t midiDataBytes[2]{ create_status_byte(PROGRAM_CHANGE, channel), program };
+	send_midi(midiDataBytes, 2);
+}
+
+void MidiOutPort::send_channel_aftertouch(uint8_t pressure, uint8_t channel)
+{
+	uint8_t midiDataBytes[2]{ create_status_byte(CHANNEL_AFTERTOUCH, channel), pressure };
+	send_midi(midiDataBytes, 2);
+}
+
+void MidiOutPort::send_pitch_bend(uint16_t value, uint8_t channel)
+{
+	uint8_t midiDataBytes[3]{ create_status_byte(CHANNEL_AFTERTOUCH, channel), pitchbend_int_to_LSB(value), pitchbend_int_to_MSB(value) };
+	send_midi(midiDataBytes, 3);
 }

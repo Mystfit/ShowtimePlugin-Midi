@@ -10,5 +10,6 @@ class RtMidiBidirectionalPort :
 	public RtMidiOutPort
 {
 public:
+	ZST_PLUGIN_EXPORT RtMidiBidirectionalPort(const std::string& name, const std::string& in_port_name, int in_port_index, const std::string& out_port_name, int out_port_index, nlohmann::json map_data = nlohmann::json());
 	void send_midi(uint8_t* midibytes, size_t length) override;
 };

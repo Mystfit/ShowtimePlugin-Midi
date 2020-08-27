@@ -83,6 +83,7 @@ set(ZST_RTMIDI_PLUGIN_HEADERS
   "${SOURCE_DIR}/MidiInPort.h"
   "${SOURCE_DIR}/MidiOutPort.h"
   "${SOURCE_DIR}/MidiCCGroup.h"
+  "${SOURCE_DIR}/Midi2DCC.h"
   "${SOURCE_DIR}/RtMidiInPort.h"
   "${SOURCE_DIR}/RtMidiOutPort.h"
   "${SOURCE_DIR}/RtMidiBidirectionalPort.h"
@@ -94,6 +95,7 @@ set(ZST_RTMIDI_PLUGIN_SRC
   "${SOURCE_DIR}/MidiInPort.cpp"
   "${SOURCE_DIR}/MidiOutPort.cpp"
   "${SOURCE_DIR}/MidiCCGroup.cpp"
+  "${SOURCE_DIR}/Midi2DCC.cpp"
   "${SOURCE_DIR}/RtMidiInPort.cpp"
   "${SOURCE_DIR}/RtMidiOutPort.cpp"
   "${SOURCE_DIR}/RtMidiBidirectionalPort.cpp"
@@ -145,4 +147,12 @@ if(BUILD_TESTS)
   include( CTest ) 
   enable_testing()
   add_subdirectory(tests)
+endif()
+
+#Apps
+option(BUILD_ECHO_APP "Build Echo Midi app")
+if(BUILD_ECHO_APP)
+  add_executable(EchoMidi "${CMAKE_CURRENT_LIST_DIR}/src/EchoMidiApp.cpp")
+  target_link_libraries(EchoMidi Showtime::Showtime)
+  add_dependencies(EchoMidi ${RTMIDI_PLUGIN_TARGET})
 endif()

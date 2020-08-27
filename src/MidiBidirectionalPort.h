@@ -6,7 +6,7 @@
 #include <nlohmann/json.hpp>
 #include <vector>
 
-#define FORCE_MIDI_MAP_LOAD 1
+#define FORCE_MIDI_MAP_LOAD 0
 #define MIDI_BIDIRECTIONAL_COMPONENT_TYPE "midibidirectionalport"
 
 class MidiBidirectionalPort : 
@@ -24,7 +24,7 @@ public:
 private:
 	void parse_midi_map(const nlohmann::json& map_data);
 	ZstEntityBase* parse_component(const nlohmann::json& component_data);
-	ZstEntityBase* parse_plug(const nlohmann::json& plug_data);
+	void parse_plug(const nlohmann::json& plug_data, ZstEntityBase* parent);
 	nlohmann::json m_map_data;
 	
 	std::vector< std::unique_ptr<showtime::ZstEntityBase> > m_owned_entities;

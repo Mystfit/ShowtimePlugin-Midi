@@ -1,5 +1,6 @@
 #include "MidiBidirectionalPort.h"
 #include "MidiCCGroup.h"
+#include "Midi2DCC.h"
 #include <showtime/ZstLogging.h>
 
 using namespace showtime;
@@ -41,7 +42,7 @@ void MidiBidirectionalPort::parse_midi_map(const nlohmann::json& map_data)
 			add_child(parse_component(child));
 		}
 		else if (type == "plug") {
-			add_child(parse_plug(child));
+			parse_plug(child, this);
 		}
 	}
 }
@@ -61,8 +62,8 @@ ZstEntityBase* MidiBidirectionalPort::parse_component(const nlohmann::json& comp
 				if (type == "component") {
 					component->add_child(parse_component(child));
 				}
-				else if (type == "cc_plug") {
-					component->add_child(parse_plug(child));
+				else if (type == "plug") {
+					parse_plug(child, component);
 				}
 			}
 		}
@@ -73,14 +74,32 @@ ZstEntityBase* MidiBidirectionalPort::parse_component(const nlohmann::json& comp
 	return m_owned_entities[m_owned_entities.size() - 1].get();
 }
 
-ZstEntityBase* MidiBidirectionalPort::parse_plug(const nlohmann::json& plug_data)
+void MidiBidirectionalPort::parse_plug(const nlohmann::json& plug_data, ZstEntityBase* parent)
 {
 	if(!plug_data.contains("name") || !plug_data.contains("type"))
-		return NULL;
+		return;
 
 	auto type = plug_data["type"].get<std::string>();
-	auto cc = plug_data["cc"].get<int>();
-	m_owned_entities.push_back(std::make_unique<MidiCCGroup>(plug_data["name"].get<std::string>().c_str(), cc));
+	auto plug_type = (plug_data.contains("plug_type")) ? plug_data["plug_type"].get<std::string>() : "";
+	auto direction = (plug_data.contains("direction")) ? plug_data["direction"].get<std::string>() : "both";
 	
-	return m_owned_entities[m_owned_entities.size() - 1].get();
+	ZstPlugDirection plug_dir(ZstPlugDirection::NONE);
+	if (direction == "in")
+		plug_dir = ZstPlugDirection::IN_JACK;
+	else if (direction == "out")
+		plug_dir = ZstPlugDirection::OUT_JACK;
+	
+	if (plug_type == "cc") {
+		auto cc = plug_data["cc"].get<int>();
+		auto plug = std::make_unique<MidiCCGroup>(plug_data["name"].get<std::string>().c_str(), cc, plug_dir, this, this);
+		parent->add_child(plug.get());
+		m_owned_entities.push_back(std::move(plug));
+	}
+	else if (plug_type == "2D_cc") {
+		auto x_cc = (plug_data.contains("x_cc")) ? plug_data["x_cc"].get<int>() : -1;
+		auto y_cc = (plug_data.contains("y_cc")) ? plug_data["y_cc"].get<int>() : -1;
+		auto xygroup = std::make_unique<Midi2DCC>(plug_data["name"].get<std::string>().c_str(), x_cc, y_cc, plug_dir, this, this);
+		parent->add_child(xygroup.get());
+		m_owned_entities.push_back(std::move(xygroup));
+	}
 }

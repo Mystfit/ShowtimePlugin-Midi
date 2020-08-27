@@ -15,15 +15,13 @@ public:
 	ZST_PLUGIN_EXPORT virtual void on_registered() override;
 	ZST_PLUGIN_EXPORT virtual void compute(showtime::ZstInputPlug* plug) override;
 
-
-protected:
-	ZST_PLUGIN_EXPORT virtual void send_note_off(unsigned char note, unsigned char velocity, unsigned char channel = 0);
-	ZST_PLUGIN_EXPORT virtual void send_note_on(unsigned char note, unsigned char velocity, unsigned char channel = 0);
-	ZST_PLUGIN_EXPORT virtual void send_poly_aftertouch(unsigned char note, unsigned char velocity, unsigned char channel = 0);
-	ZST_PLUGIN_EXPORT virtual void send_cc(unsigned char controller, unsigned char value, unsigned char channel = 0);
-	ZST_PLUGIN_EXPORT virtual void send_program_change(unsigned char program, unsigned char channel = 0);
-	ZST_PLUGIN_EXPORT virtual void send_channel_aftertouch(unsigned char pressure, unsigned char channel = 0);
-	ZST_PLUGIN_EXPORT virtual void send_pitch_bend(unsigned short value, unsigned char channel = 0);
+	ZST_PLUGIN_EXPORT virtual void send_note_off(uint8_t note, uint8_t velocity, uint8_t channel = 0);
+	ZST_PLUGIN_EXPORT virtual void send_note_on(uint8_t note, uint8_t velocity, uint8_t channel = 0);
+	ZST_PLUGIN_EXPORT virtual void send_poly_aftertouch(uint8_t note, uint8_t velocity, uint8_t channel = 0);
+	ZST_PLUGIN_EXPORT virtual void send_cc(uint8_t controller, uint8_t value, uint8_t channel = 0);
+	ZST_PLUGIN_EXPORT virtual void send_program_change(uint8_t program, uint8_t channel = 0);
+	ZST_PLUGIN_EXPORT virtual void send_channel_aftertouch(uint8_t pressure, uint8_t channel = 0);
+	ZST_PLUGIN_EXPORT virtual void send_pitch_bend(uint16_t value, uint8_t channel = 0);
 
 	ZST_PLUGIN_EXPORT virtual void send_midi(uint8_t* midibytes, size_t length) = 0;
 

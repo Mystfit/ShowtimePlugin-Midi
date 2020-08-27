@@ -1,0 +1,93 @@
+{
+	"name": "kaossilator_pro",
+	"port_in_name": "KAOSSILATOR PRO 0",
+	"port_out_name": "KAOSSILATOR PRO 1",
+	"port_type": "bidrectional",
+	"children": [
+		{
+			"name": "program_volume",
+			"type": "plug",
+			"plug_type": "cc",
+			"cc": 94
+		}, 
+		{
+			"name": "touchpad",
+			"type": "component",
+			"children": [
+				{
+					"name": "coordinates",
+					"type": "plug",
+					"plug_type": "2D_cc",
+					"direction": "in",
+					"x_cc": 12,
+					"y_cc": 13
+				},
+				{
+					"name": "toggle",
+					"type": "plug",
+					"plug_type": "cc",
+					"cc": 92
+				}
+			]
+		}, 
+		{
+			"name": "arpeggiator",
+			"type": "component",
+			"children": [ 
+				{
+					"name": "toggle",
+					"type": "plug",
+					"plug_type": "cc",
+					"direction": "out",
+					"cc": 90
+				},
+				{
+					"name": "gate",
+					"type": "plug",
+					"plug_type": "cc",
+					"cc": 93
+				},
+				{
+					"name": "speed",
+					"type": "plug",
+					"plug_type": "cc",
+					"cc": 91
+				}
+			]
+		},
+		{
+			"name": "looper",
+			"type": "component",
+			"children": [
+				{
+					"name": "bank_A",
+					"type": "plug",
+					"plug_type": "cc",
+					"direction": "out",
+					"cc": 36
+				},
+				{
+					"name": "bank_B",
+					"type": "plug",
+					"plug_type": "cc",
+					"direction": "out",
+					"cc": 37
+				},
+				{
+					"name": "bank_C",
+					"type": "plug",
+					"plug_type": "cc",
+					"direction": "out",
+					"cc": 38
+				},
+				{
+					"name": "bank_D",
+					"type": "plug",
+					"plug_type": "cc",
+					"direction": "out",
+					"cc": 39
+				}
+			]
+		}
+	]
+}
