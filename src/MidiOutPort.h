@@ -14,7 +14,7 @@ public:
 	ZST_PLUGIN_EXPORT MidiOutPort(unsigned int port_number, const std::string& port_name);
 	ZST_PLUGIN_EXPORT virtual void on_registered() override;
 	ZST_PLUGIN_EXPORT virtual void compute(showtime::ZstInputPlug* plug) override;
-
+    ZST_PLUGIN_EXPORT virtual void send_midi(uint8_t* midibytes, size_t length) = 0;
 
 protected:
 	ZST_PLUGIN_EXPORT virtual void send_note_off(unsigned char note, unsigned char velocity, unsigned char channel = 0);
@@ -24,8 +24,6 @@ protected:
 	ZST_PLUGIN_EXPORT virtual void send_program_change(unsigned char program, unsigned char channel = 0);
 	ZST_PLUGIN_EXPORT virtual void send_channel_aftertouch(unsigned char pressure, unsigned char channel = 0);
 	ZST_PLUGIN_EXPORT virtual void send_pitch_bend(unsigned short value, unsigned char channel = 0);
-
-	ZST_PLUGIN_EXPORT virtual void send_midi(uint8_t* midibytes, size_t length) = 0;
 
 private:
 	// Output plugs

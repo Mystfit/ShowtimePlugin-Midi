@@ -11,4 +11,7 @@ class RtMidiBidirectionalPort :
 {
 public:
 	void send_midi(uint8_t* midibytes, size_t length) override;
+    
+    void on_registered() override;
+    void compute(showtime::ZstInputPlug* plug) override;
 };

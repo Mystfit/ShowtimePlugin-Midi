@@ -43,8 +43,8 @@ void MidiFactory::parse_midi_port_maps(const fs::path& map_dir)
 
 		if (mapping_file.path().extension() != fs::path(".json"))
 			continue;
-
-		std::ifstream input_stream(mapping_file);
+        
+		std::ifstream input_stream(mapping_file.path().string());
 		json mapping_json;
 		input_stream >> mapping_json;
 		register_midi_port_map(mapping_json);
@@ -83,7 +83,7 @@ void MidiFactory::register_midi_port_map(json map_data)
 	}
 }
 
-int MidiFactory::get_port_index(RtMidi* midi, std::string& port_name)
+int MidiFactory::get_port_index(RtMidi* midi, const std::string& port_name)
 {
 	auto num_ports = midi->getPortCount();
 	for (size_t port_index = 0; port_index < num_ports; ++port_index) {
