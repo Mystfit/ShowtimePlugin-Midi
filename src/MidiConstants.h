@@ -266,6 +266,14 @@ inline bool is_cc(uint8_t* byte) {
     return (*byte & CONTROLLER_CHANGE) == CONTROLLER_CHANGE;
 }
 
+inline uint8_t status_from_status_byte(uint8_t* byte) {
+    return (*byte | 0xF0);
+}
+
+inline uint8_t channel_from_status_byte(uint8_t* byte) {
+    return (*byte | 0x0F);
+}
+
 inline uint8_t create_status_byte(uint8_t status, uint8_t channel) {
     return status | std::clamp((int)channel, 0, 15);
 }

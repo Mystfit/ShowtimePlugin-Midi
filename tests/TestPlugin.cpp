@@ -166,7 +166,7 @@ BOOST_FIXTURE_TEST_CASE(virtualmidi_receive, FixturePlugs) {
 	auto virtualmidi_component = client->create_entity(virtualmidi_path, "test_virtual_midi");
 	
 	ZstInputPlug* vmidi_note_send = dynamic_cast<ZstInputPlug*>(client->find_entity(virtualmidi_component->URI() + ZstURI("send_noteon")));
-	ZstOutputPlug* vmidi_note_recv = dynamic_cast<ZstOutputPlug*>(client->find_entity(virtualmidi_component->URI() + ZstURI("recv_note")));
+	ZstOutputPlug* vmidi_note_recv = dynamic_cast<ZstOutputPlug*>(client->find_entity(virtualmidi_component->URI() + ZstURI("recv_noteon")));
 	BOOST_REQUIRE(vmidi_note_send);
 	BOOST_REQUIRE(vmidi_note_recv);
 
@@ -178,11 +178,11 @@ BOOST_FIXTURE_TEST_CASE(virtualmidi_receive, FixturePlugs) {
 	output_plug->append_int(0);
 	output_plug->fire();
 	
-	int max_loops = 200;
+	int max_loops = 1000;
 	while (input_plug->size() == 0 && --max_loops > 0) {
 		client->poll_once();
 	}
-	BOOST_REQUIRE(input_plug->size() == 4);
+	BOOST_TEST(input_plug->size() == 4);
 	auto channel = input_plug->int_at(1);
 	auto note = input_plug->int_at(2);
 	auto velocity = input_plug->int_at(3);
