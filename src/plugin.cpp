@@ -23,7 +23,10 @@ namespace showtime {
 		auto midi_factory = std::make_unique<MidiFactory>("midi_ports");
 
 		if (!data_path.empty()) {
-			midi_factory->parse_midi_port_maps(data_path.append(PLUGIN_NAME).append(MIDI_MAP_DIR));
+			auto midi_data_path = data_path;
+			midi_data_path.append(PLUGIN_NAME).append(MIDI_MAP_DIR);
+			if(fs::exists(midi_data_path))
+				midi_factory->parse_midi_port_maps(midi_data_path);
 		}
 		else {
 			Log::app(Log::Level::warn, "ShowtimeMidiPlugin: No plugin data path set. Can't load midi maps");

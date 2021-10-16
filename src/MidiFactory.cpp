@@ -72,9 +72,9 @@ void MidiFactory::register_midi_port_map(json map_data)
 
 	if (in_port_index >= 0 && out_port_index >= 0 || FORCE_MIDI_MAP_LOAD) {
 		ZstURI creatable_name(map_data["name"].get<std::string>().c_str());
-		this->add_creatable<MidiBidirectionalPort>(creatable_name, [in_port_index, in_port_name, out_port_index, out_port_name, map_data](const char* e_name) -> std::unique_ptr<ZstEntityBase> {
+		this->add_creatable(creatable_name, [in_port_index, in_port_name, out_port_index, out_port_name, map_data](const char* e_name) -> std::unique_ptr<ZstEntityBase> {
 			return std::make_unique<RtMidiBidirectionalPort>(std::string(e_name), in_port_name, in_port_index, out_port_name, out_port_index, map_data);
-			});
+		});
 		/*register_midi_creatable<MidiBidirectionalPort>(in_port_name, in_port_index, out_port_name, out_port_index, map_data);*/
 	}
 	else if (in_port_index >= 0) {
@@ -111,7 +111,7 @@ int MidiFactory::get_port_index(RtMidi* midi, const std::string& port_name)
 #ifdef HAS_TEVIRTUALMIDI
 #include "VirtualMidi.h"
 void MidiFactory::register_virtual_midi_creatables() {
-	this->add_creatable<VirtualMidi>("virtualMidi", [](const char* e_name) -> std::unique_ptr<ZstEntityBase> {
+	this->add_creatable("virtualMidi", [](const char* e_name) -> std::unique_ptr<ZstEntityBase> {
 		return std::make_unique<VirtualMidi>(e_name);
 	});
 }

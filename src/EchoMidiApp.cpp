@@ -1,5 +1,6 @@
 #include <showtime/ShowtimeClient.h>
 #include <showtime/ShowtimeServer.h>
+#include <showtime/ZstLogging.h>
 #include <signal.h>
 
 using namespace showtime;
